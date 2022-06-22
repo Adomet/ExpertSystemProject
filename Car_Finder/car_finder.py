@@ -2,62 +2,33 @@ import contextlib
 import sys
 
 from pyke import knowledge_engine
-from pyke import krb_traceback
+#from pyke import krb_traceback
 
 engine = knowledge_engine.engine(__file__)
 
-def test():
 
-    engine.reset()      # Allows us to run tests multiple times.
 
-    engine.activate('rules') #STUDENTS: you will need to edit the name of your rule file here
-
-    print("doing proof")
-    
-    try:
-        with engine.prove_goal('rules.what_to_bring($bring)') as gen: #STUDENTS: you will need to edit this line
-            for vars, plan in gen:
-                print("You should bring: %s" % (vars['bring'])) #STUDENTS: you will need to edit this line
-    except Exception:
-        # This converts stack frames of generated python functions back to the
-        # .krb file.
-        krb_traceback.print_exc()
-        sys.exit(1)
-
-    print()
-    print("done")
-    #engine.print_stats()
-
-    
-def test_questions():
-
-    engine.reset()      # Allows us to run tests multiple times.
-
-    engine.activate('rules_questions') #STUDENTS: you will need to edit the name of your rule file here
-
-    print("doing proof")
-    
-    try:
-        with engine.prove_goal('rules_questions.what_to_bring($bring)') as gen: #STUDENTS: you will need to edit this line
-            for vars, plan in gen:
-                print("You should bring: %s" % (vars['bring'])) #STUDENTS: you will need to edit this line
-
-    except Exception:
-        # This converts stack frames of generated python functions back to the
-        # .krb file.
-        krb_traceback.print_exc()
-        sys.exit(1)
-
-    print()
-    print("done")
 
 
 def chatbot_response(text):
-    #ints = predict_class(text, model)
-    #res =  getResponse(ints, intents)
-    res = "Hello there?"
-    return res
+    res =""
 
+    engine.reset()      # Allows us to run tests multiple times.
+    engine.add_universal_fact('facts','electric',[True])
+    engine.activate('rules')
+    print("suggesting...")
+    try:
+        with engine.prove_goal('rules.what_to_buy($car)') as gen: 
+            for vars, plan in gen:
+                res = ("You should buy: %s" % (vars['car']))
+                print(res)
+
+    except Exception:
+        print("Exception")
+        # krb_traceback.print_exc()
+        # This converts stack frames of generated python functions back to the .krb file.
+
+    return res
 
 #Creating GUI with tkinter
 import tkinter
@@ -84,8 +55,8 @@ ChatLog.config(state=DISABLED)
 scrollbar = Scrollbar(base, command=ChatLog.yview, cursor="heart")
 ChatLog['yscrollcommand'] = scrollbar.set
 #Create Button to send message
-SendButton = Button(base, font=("Verdana",12,'bold'), text="Send", width="12", height=5,
-                    bd=0, bg="#32de97", activebackground="#3c9d9b",fg='#ffffff',
+SendButton = Button(base, font=("Verdana",11,'bold'), text="Send", width="12", height=5,
+                    bd=0, bg="#ff2800", activebackground="#ff2800",fg='#ffffff',
                     command= send )
 #Create the box to enter message
 EntryBox = Text(base, bd=0, bg="white",width="29", height="5", font="Arial")
