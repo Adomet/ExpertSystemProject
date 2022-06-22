@@ -4,8 +4,22 @@ what_to_buy_tesla
     use what_to_buy(tesla)
     when
         facts.electric(True)
+        facts.type4x4(True)
+        facts.cheap(False)
 
 what_to_buy_ford
     use what_to_buy(ford)
     when
-	    facts.electric(False)
+        facts.electric(False)
+        facts.type4x4(True)
+        facts.cheap(False)
+        
+
+what_to_buy_sahin
+    use what_to_buy(sahin)
+    when
+        facts.electric(False)
+        facts.type4x4(False)
+        facts.cheap(True)
+
+
