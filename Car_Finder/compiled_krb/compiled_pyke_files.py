@@ -14,9 +14,9 @@ except NameError:
 def get_target_pkg():
     return target_pkg.target_pkg(__name__, __file__, pyke_version, loader, {
          ('', '', 'facts.kfb'):
-           [1655932408.6539774, 'facts.fbc'],
+           [1655996242.8129957, 'facts.fbc'],
          ('', '', 'rules.krb'):
-           [1655932408.6624777, 'rules_bc.py'],
+           [1655996242.8214946, 'rules_bc.py'],
         },
         compiler_version)
 

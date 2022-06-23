@@ -52,6 +52,8 @@ def check_all_messages(message):
     response('Nice to meet you!',['my','name','is'],required_words=['my','name'])
     response(long.R_EATING,['what','do','you','eat'],required_words=['you','eat'])
     response(long.R_SUGGEST,['can','you','suggest','me','a','car'],required_words=['suggest','car'])
+    response(long.R_SUGGEST,['can','you','find','me','a','car'],required_words=['find','car'])
+
 
 
     best_match = max(highest_prob_list,key=highest_prob_list.get)
@@ -117,8 +119,8 @@ def get_suggested_car():
     try:
         with engine.prove_goal('rules.what_to_buy($car)') as gen: 
             for vars, plan in gen:
-                response = ("You should buy: %s" % (vars['car']))
-                print(response)
+                response = ("You should buy a %s" % (vars['car']))
+                #print(response)
 
     except Exception:
         print("Exception")
