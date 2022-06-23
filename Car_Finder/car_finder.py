@@ -5,10 +5,6 @@ import random
 import long_responses as long
 engine = knowledge_engine.engine(__file__)
 
-def random_greet():
-    greet_list = list()
-    greet_list.append("I am Car_Finder, How can i help you?")
-    return greet_list[random.randint(0,len(greet_list)-1)]
 
 def messagge_probability(user_message,recongised_words,single_response=False,required_words=[]):
     message_certainty=0
@@ -31,8 +27,6 @@ def messagge_probability(user_message,recongised_words,single_response=False,req
         return 0
 
 
-
-
 def check_all_messages(message):
     global isCarSuggesting
     highest_prob_list={}
@@ -43,16 +37,17 @@ def check_all_messages(message):
 
 
     ## REGULAR RESPONSES ##
-    response('Hello i am Car_Finder. How can i help you!',['hello','hi','sup','hep','heyo'],singe_response=True)
-    response('my name is Car_Finder.',['what','is','your','name'],required_words=['your','name'])
+    response('Hello i am Car Finder. How can i help you!',['hello','hi','sup','hep','heyo'],singe_response=True)
+    response('my name is Car Finder.',['what','is','your','name'],required_words=['your','name'])
     response('mee too.',['i','love','hate','you'],required_words=['i','you'])
-    response('i am Car_Finder.',['who','are','you'],required_words=['who','you'])
+    response('i am Car Finder.',['who','are','you'],required_words=['who','you'])
     response('I\'m doing fine, and you?', ['how','are','you','doing'],required_words=['how'])
     response('i love you too!',['i','love','you'],required_words=['love','you'])
+    response('no problem!',['thanks'],singe_response=True)
     response('Nice to meet you!',['my','name','is'],required_words=['my','name'])
     response(long.R_EATING,['what','do','you','eat'],required_words=['you','eat'])
-    response(long.R_SUGGEST,['can','you','suggest','me','a','car'],required_words=['suggest','car'])
-    response(long.R_SUGGEST,['can','you','find','me','a','car'],required_words=['find','car'])
+    response(long.R_SUGGEST,['can','you','suggest','find','me','a','car'],required_words=['car'])
+
 
 
 
@@ -68,13 +63,6 @@ def check_all_messages(message):
 
 isCarSuggesting = False
 answeredQuestionIndex = 0
-def resForACarSuggestion():
-    global isCarSuggesting
-    global answeredQuestionIndex 
-    isCarSuggesting = True
-    answeredQuestionIndex = 0
-    response = ["Of course! I im just going to ask some quesitons about what type of car you want."]
-    return response[0]
 
 def suggest_car(message):
     global answeredQuestionIndex
@@ -96,20 +84,46 @@ def answerToFact(message,questionIndex):
     index = questionIndex-1
     for word in message:
         if(index==0):
-            if word == "electric":
+            if word in ["electric"]:
                 engine.assert_('facts','electric',[True])
-            if word == "gasoline":
+            if word in ["gasoline"]:
                 engine.assert_('facts','electric',[False])
         if(index==1):
-            if word == "4x4":
-                engine.assert_('facts','type4x4',[True])
-            if word == "4x2":
-                engine.assert_('facts','type4x4',[False])
-        if(index==2):
             if int(word) > 10000:
                 engine.assert_('facts','cheap',[False])
             else:
                 engine.assert_('facts','cheap',[True])
+        if(index==2):
+            if word in ["4x4"]:
+                engine.assert_('facts','type4x4',[True])
+            if word in ["4x2"]:
+                engine.assert_('facts','type4x4',[False])
+        if(index==3):
+            if word in ["manuel"]:
+                engine.assert_('facts','manuel',[True])
+            if word in ["automatic"]:
+                engine.assert_('facts','manuel',[False])
+        if(index==4):
+            if int(word) >= 4:
+                engine.assert_('facts','seat4',[True])
+            if int(word) < 4:
+                engine.assert_('facts','seat4',[False])
+        if(index==5):
+            if word in ["sedan"]:
+                engine.assert_('facts','sedan',[True])
+            if word in ["suv"]:
+                engine.assert_('facts','sedan',[False])
+        if(index==6):
+            if int(word) >= 200:
+                engine.assert_('facts','horsepower',[True])
+            if int(word) < 200:
+                engine.assert_('facts','horsepower',[False])
+        if(index==7):
+            if word in ["offroad"]:
+                engine.assert_('facts','offroad',[True])
+            if word in ["onroad"]:
+                engine.assert_('facts','offroad',[False])
+        
 
 def get_suggested_car():
     response=""
@@ -162,7 +176,7 @@ def send():
 
 base = Tk()
 base.title("Car_Finder")
-base.geometry("600x500")
+base.geometry("700x500")
 base.resizable(width=FALSE, height=FALSE)
 #Create Chat window
 ChatLog = Text(base, bd=0, bg="white", height="8", width="50", font=("Verdana",10,'bold'))
@@ -178,8 +192,8 @@ SendButton = Button(base, font=("Verdana",11,'bold'), text="Send", width="12", h
 EntryBox = Text(base, bd=0, bg="white",width="29", height="5", font=("Verdana",10,'bold'))
 #EntryBox.bind("<Return>", send)
 #Place all components on the screen
-scrollbar.place(x=576,y=6, height=386)
-ChatLog.place(x=6,y=6, height=386, width=570)
-EntryBox.place(x=6, y=401, height=90, width=440)
-SendButton.place(x=450, y=401, height=90)
+scrollbar.place(x=670,y=6, height=386)
+ChatLog.place(x=6,y=6, height=386, width=670)
+EntryBox.place(x=6, y=401, height=90, width=550)
+SendButton.place(x=560, y=401, height=90)
 base.mainloop()
