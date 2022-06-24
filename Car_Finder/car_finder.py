@@ -5,7 +5,7 @@ import random
 import long_responses as long
 engine = knowledge_engine.engine(__file__)
 
-
+#Message Probabilty for determine choice selection
 def messagge_probability(user_message,recongised_words,single_response=False,required_words=[]):
     message_certainty=0
     has_required_words=True
@@ -26,7 +26,7 @@ def messagge_probability(user_message,recongised_words,single_response=False,req
     else:
         return 0
 
-
+# check all possable messages
 def check_all_messages(message):
     global isCarSuggesting
     highest_prob_list={}
@@ -60,10 +60,11 @@ def check_all_messages(message):
     #print(highest_prob_list)
     return res
 
-
+# car suggestion flag
 isCarSuggesting = False
 answeredQuestionIndex = 0
 
+# suggest car based on facts
 def suggest_car(message):
     global answeredQuestionIndex
     global isCarSuggesting
@@ -80,6 +81,7 @@ def suggest_car(message):
         answeredQuestionIndex +=1
     return res
 
+#answer to knowlagebase facts
 def answerToFact(message,questionIndex):
     index = questionIndex-1
     for word in message:
@@ -124,7 +126,7 @@ def answerToFact(message,questionIndex):
             if word in ["onroad"]:
                 engine.assert_('facts','offroad',[False])
         
-
+# get suggested car from knowlagebase
 def get_suggested_car():
     response=""
     #engine.reset()      # Allows us to run tests multiple times.
@@ -146,7 +148,7 @@ def get_suggested_car():
 
     return response
 
-
+# get response of chatbot based on suggestion flag
 def chatbot_response(text):
     split_message = re.split(r'\s+|[,;?!.-]\s',text.lower())
     response =''
@@ -161,6 +163,7 @@ def chatbot_response(text):
 import tkinter
 from tkinter import *
 
+# send button func
 def send():
     msg = EntryBox.get("1.0",'end-1c').strip()
     EntryBox.delete("0.0",END)
